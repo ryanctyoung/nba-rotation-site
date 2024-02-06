@@ -17,6 +17,7 @@ export default function GameSelect (props: Readonly<{
 
 
     useEffect(() => {
+        setLabel(defaultLabel)
         setGames(props.games)
     }, [props.games])
 

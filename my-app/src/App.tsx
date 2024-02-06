@@ -4,13 +4,15 @@ import request from './generic/api_request'
 import TeamDropDown from './components/team_dropdown'
 import GameSelect from './components/game_select'
 import { Game } from './types/game';
+import { Rotation } from './types/rotation';
+import RotationChart from './components/rotation_chart';
 
 
 function App() {
   const [teamId, setTeamId] = useState<number>(-1)
   const [gameId, setGameId] = useState<string>("")
   const [gameList, setGameList] = useState<Game[]>([])
-  const [rotationList, setRotationList] = useState<number[]>([])
+  const [rotationList, setRotationList] = useState<Rotation[]>([])
 
   // API calls
   const fetchGamesbyTeam = (team: number) => {
@@ -43,6 +45,8 @@ function App() {
 
   useEffect(() => {
     fetchGamesbyTeam(teamId)
+    setGameId('')
+    setGameList([])
   }, [teamId])
 
   useEffect(() => {
@@ -63,6 +67,7 @@ function App() {
       <header className="App-header">
         <TeamDropDown team_callback={select_team_callback}/>
         {teamId !== -1 && <GameSelect games={gameList} callback={select_game_callback}/>}
+        {gameId !== '' && <RotationChart rotations={rotationList}/>}
       </header>
     </div>
   );
