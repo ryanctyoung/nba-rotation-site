@@ -8,7 +8,7 @@ import { Game } from './types/game';
 
 function App() {
   const [teamId, setTeamId] = useState<number>(-1)
-  const [gameId, setGameId] = useState<number>(-1)
+  const [gameId, setGameId] = useState<string>("")
   const [gameList, setGameList] = useState<Game[]>([])
   const [rotationList, setRotationList] = useState<number[]>([])
 
@@ -27,14 +27,18 @@ function App() {
       })
   }
   
-  const fetchGameData = (game: number) => {
-    if (game == -1) {
+  const fetchGameRotations = (game: string) => {
+    if (game === "") {
       console.log('NO GAME SELECTED')
       return
     }
 
     const rotationUrl = 'rotations'
-    request(rotationUrl)
+    request(rotationUrl, {gameId: game}, 'GET')
+      .then((data: []) => {
+        console.log(data)
+        setRotationList(data)
+      })
   }
 
   useEffect(() => {
@@ -42,14 +46,14 @@ function App() {
   }, [teamId])
 
   useEffect(() => {
-    fetchGameData(gameId)
+    fetchGameRotations(gameId)
   }, [gameId])
 
   const select_team_callback = (id: number) => {
     setTeamId(id)
   }
 
-  const select_game_callback = (id: number) => {
+  const select_game_callback = (id: string) => {
     setGameId(id)
   }
 

@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import gameRouter from './routing/games/index.js'
+import rotationRouter from './routing/rotations/index.js'
 import "reflect-metadata";
 
 const corsOptions = {
@@ -20,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Game route map
 app.use('/games', gameRouter);
+
+app.use('/rotations', rotationRouter);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;

@@ -2,7 +2,7 @@ import { DataSource } from "typeorm"
 import settings from "./settings.json" assert { type: "json" };
 // import Score from './schema/scoreSchema.js';
 import Game from './schema/gameSchema.js';
-// import Rotation from './schema/rotationSchema.js';
+import Rotation from './schema/rotationSchema.js';
 
 const environment = "development"
 const settingsInfo = settings[environment]
@@ -16,6 +16,7 @@ export const AppDataSource = new DataSource({
   database: settingsInfo.database,
   entities: [
     Game,
+    Rotation
   ],
 })
 

@@ -5,7 +5,7 @@ import Game from '../../db/schema/gameSchema.js';
 const MainGameRouter = express.Router();
 const db = AppDataSource;
 
-// List Games - parameters: team_id
+// List Games - parameters: teamId
 MainGameRouter.get('/', async (req, res) => {
   console.log(`GET Games by Team_Id Query`);
   const { teamId } = req.query;

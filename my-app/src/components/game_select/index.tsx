@@ -8,7 +8,7 @@ const defaultLabel:string = 'Select a Game'
 
 export default function GameSelect (props: Readonly<{
     games: Game[],
-    callback: (e:number) => void, 
+    callback: (e:string) => void, 
 }>) {  
 
     const [games, setGames] = useState(props.games)
@@ -20,15 +20,16 @@ export default function GameSelect (props: Readonly<{
         setGames(props.games)
     }, [props.games])
 
-    function onSelect (id: number, name: string) {
-        callback(id);
-        setLabel(name);
+    function onSelect (id: string, name: string) {
+        console.log(id)
+        callback(id)
+        setLabel(name)
       }
 
     function render_games () {
         return(
             games.map((game) =>
-            <Dropdown.Item onClick={() => onSelect(Number(game.id), game.matchup)} key={game.teamId}>
+            <Dropdown.Item onClick={() => onSelect(game.id, game.matchup)} key={game.teamId}>
               {game.matchup} {StripDateString(game.date)}
             </Dropdown.Item>)
           )
