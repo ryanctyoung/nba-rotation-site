@@ -57,8 +57,7 @@ export default function RotationChart(props: Readonly<{
         return rotations.map((p) => {
             const stripped = p.subs.substring(1,p.subs.length - 2).split(',').map((s) => Math.round(Number(s)/10))
             let rotation_history:Array<number> = new Array(seconds_per_game).fill(0);
-            //const history = new Array(seconds_per_game).fill(0) as number[];
-            console.log(`Max length of time is: ${Math.max(...stripped)}`)
+            // console.log(`Max length of time is: ${Math.max(...stripped)}`)
             let i:number = 0
             while(i < stripped.length - 1) {
                 // we ignore OT for now
@@ -67,14 +66,15 @@ export default function RotationChart(props: Readonly<{
                 }
                 i += 2
             }
-
+            rotation_history[0] = 0
+            rotation_history[seconds_per_game - 1] = 0
             let data = rotation_history.map((d:number, i:number )=> [i, d]) as [[number, number]]
-            console.log(`Data for ${p.player_name}: ${data}`)
+            // console.log(`Data for ${p.player_name}: ${data}`)
             return {player: p.player_name, data}
         })}, [xScale, rotations])
 
     const yScale = scaleLinear()
-        .domain([0, 10])
+        .domain([0, 3])
         .range([ DENSITY_BAND_HEIGHT, 0]);
 
 
@@ -88,19 +88,12 @@ export default function RotationChart(props: Readonly<{
         const svg = select(svgRef.current)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-        // .append("g")
-        //     .attr("transform",
-        //         `translate(${margin.left}, ${margin.top})`);
-
-        // svg.append("g")
-        //     .call(axisLeft(yGroup));
-
     }, [rotations]);
 
     const paths = useMemo(() => {
         const lineGenerator = line()
           .x((d) => {
-            // console.log(d)
+            
             return xScale(d[0])
           })
           .y((d) => {
@@ -116,15 +109,15 @@ export default function RotationChart(props: Readonly<{
           const path = lineGenerator(group.data);
           return (
             <path
-              key={i}
+              key={group.player}
               d={path ?? ''}
               transform={
                 "translate(0," + ((yGroup(group.player)?? 0)- DENSITY_BAND_HEIGHT) + ")"
               }
-              fill="purple"
+              fill="white"
               opacity={0.8}
-              stroke="white"
-              strokeWidth={0.3}
+              stroke="grey"
+              strokeWidth={2}
               strokeLinejoin="round"
             />
           );
