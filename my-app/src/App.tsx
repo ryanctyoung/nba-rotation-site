@@ -5,6 +5,7 @@ import TeamDropDown from './components/team_dropdown'
 import GameSelect from './components/game_select'
 import { Game } from './types/game';
 import { Rotation } from './types/rotation';
+import { Score } from './types/score'
 import RotationChart from './components/rotation_chart';
 
 
@@ -13,6 +14,7 @@ function App() {
   const [gameId, setGameId] = useState<string>("")
   const [gameList, setGameList] = useState<Game[]>([])
   const [rotationList, setRotationList] = useState<Rotation[]>([])
+  const [scoreList, setScoreList] = useState<Score[]>([])
 
   // API calls
   const fetchGamesbyTeam = (team: number) => {
@@ -43,6 +45,20 @@ function App() {
       })
   }
 
+  const fetchScoreHistory = (game: string) => {
+    if (game === "") {
+      console.log('NO GAME SELECTED')
+      return
+    }
+
+    const scoreUrl = 'scores'
+    request(scoreUrl, {gameId: game}, 'GET')
+      .then((data: []) => {
+        console.log(data)
+        setScoreList(data)
+      })
+  }
+
   useEffect(() => {
     fetchGamesbyTeam(teamId)
     setGameId('')
@@ -50,7 +66,14 @@ function App() {
   }, [teamId])
 
   useEffect(() => {
+
+    if (gameId === "") {
+      console.log('NO GAME SELECTED')
+      return
+    }
+
     fetchGameRotations(gameId)
+    fetchScoreHistory(gameId)
   }, [gameId])
 
   const select_team_callback = (id: number) => {
@@ -67,7 +90,7 @@ function App() {
       <header className="App-header">
         <TeamDropDown team_callback={select_team_callback}/>
         {teamId !== -1 && <GameSelect games={gameList} callback={select_game_callback}/>}
-        {gameId !== '' && <RotationChart rotations={rotationList}/>}
+        {gameId !== '' && <RotationChart rotations={rotationList} scores={scoreList}/>}
       </header>
     </div>
   );
