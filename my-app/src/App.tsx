@@ -88,10 +88,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <TeamDropDown team_callback={select_team_callback}/>
-        {teamId !== -1 && <GameSelect games={gameList} callback={select_game_callback}/>}
-        {gameId !== '' && <RotationChart rotations={rotationList} scores={scoreList}/>}
+        <div>
+          NBA Rotation Tracker
+        </div>
+        <span>
+          <TeamDropDown team_callback={select_team_callback}/>
+          {teamId !== -1 && <GameSelect games={gameList} callback={select_game_callback}/>}
+        </span>
       </header>
+      <div className='app-body'>
+          {gameId !== '' && <RotationChart rotations={rotationList} scores={scoreList}/>}
+      </div>
     </div>
   );
 }
