@@ -13,4 +13,7 @@ export default class Rotation {
 
     @Column("text")
     SUBS: string
+
+    @Column()
+    TEAM_ID: number
 }

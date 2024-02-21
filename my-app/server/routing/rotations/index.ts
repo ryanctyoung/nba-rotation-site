@@ -22,6 +22,7 @@ MainRotationRouter.get('/', async (req, res) => {
         player_id: rotation.PLAYER_ID,
         player_name: rotation.PLAYER_NAME,
         subs: rotation.SUBS,
+        team_id: rotation.TEAM_ID
       }))
       res.json(objs)
     });

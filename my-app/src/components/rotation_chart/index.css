@@ -1,5 +1,7 @@
 #data-viz {
-
+  display: flex;
+  background-color: #444b5a;
+  padding-left: 15px;
   align-self: center;
 
     .path-container {
@@ -8,8 +10,15 @@
       block-size: fit-content;
       height: fit-content;
       overflow:auto;
-      fill: white;
     }
+
+    .timestamp {
+      width: 300px;
+      height: 100px;
+      color: aliceblue;
+      align-self: center;
+    }
+    
     .tooltip {
       opacity: 0;
       background: white;
@@ -23,4 +32,5 @@
       padding: 5px;
       pointer-events:none; 
     }
+
 }

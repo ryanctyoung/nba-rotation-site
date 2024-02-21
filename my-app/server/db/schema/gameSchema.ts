@@ -19,4 +19,10 @@ export default class Game {
 
     @Column("text")
     MATCHUP: string
+
+    @Column()
+    PTS: number
+
+    @Column()
+    PLUS_MINUS:number
 }

@@ -3,4 +3,5 @@ export type Rotation = {
     subs: string,
     player_id: number,
     player_name: string,
+    team_id: number
 }

@@ -1,0 +1,10 @@
+.game-select {
+    span.logo {
+        display: contents;
+
+        svg {
+            width:50px;
+            height: auto;
+        }
+    }
+}

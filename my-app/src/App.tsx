@@ -7,11 +7,13 @@ import { Game } from './types/game';
 import { Rotation } from './types/rotation';
 import { Score } from './types/score'
 import RotationChart from './components/rotation_chart';
+import seasonInfo from './static/season-id.json';
 
 
 function App() {
   const [teamId, setTeamId] = useState<number>(-1)
-  const [gameId, setGameId] = useState<string>("")
+  const [selectedGame, setGame] = useState<Game>()
+  const [matchupString, setMatchup] = useState<string>("")
   const [gameList, setGameList] = useState<Game[]>([])
   const [rotationList, setRotationList] = useState<Rotation[]>([])
   const [scoreList, setScoreList] = useState<Score[]>([])
@@ -24,14 +26,14 @@ function App() {
     }
 
     const gameUrl = `games`
-    request(gameUrl, {teamId: team}, 'GET')
+    request(gameUrl, {teamId: team, seasonId: seasonInfo.season_id}, 'GET')
       .then((data: []) => {
         console.log(data)
         setGameList(data)
       })
   }
   
-  const fetchGameRotations = (game: string) => {
+  const fetchRotations = (game: string) => {
     if (game === "") {
       console.log('NO GAME SELECTED')
       return
@@ -40,7 +42,7 @@ function App() {
     const rotationUrl = 'rotations'
     request(rotationUrl, {gameId: game}, 'GET')
       .then((data: []) => {
-        console.log(data)
+        // console.log(data)
         setRotationList(data)
       })
   }
@@ -54,34 +56,35 @@ function App() {
     const scoreUrl = 'scores'
     request(scoreUrl, {gameId: game}, 'GET')
       .then((data: []) => {
-        console.log(data)
+        // console.log(data)
         setScoreList(data)
       })
   }
 
   useEffect(() => {
     fetchGamesbyTeam(teamId)
-    setGameId('')
+    setGame(Object())
     setGameList([])
   }, [teamId])
 
   useEffect(() => {
 
-    if (gameId === "") {
+    if (selectedGame?.id === "" || selectedGame?.id === undefined) {
       console.log('NO GAME SELECTED')
       return
     }
 
-    fetchGameRotations(gameId)
-    fetchScoreHistory(gameId)
-  }, [gameId])
+    fetchRotations(selectedGame.id)
+    fetchScoreHistory(selectedGame.id)
+  }, [selectedGame?.id])
 
   const select_team_callback = (id: number) => {
     setTeamId(id)
   }
 
-  const select_game_callback = (id: string) => {
-    setGameId(id)
+  const select_game_callback = (g:Game) => {
+    setGame(g)
+    setMatchup(g.matchup)
   }
 
 
@@ -97,7 +100,12 @@ function App() {
         </span>
       </header>
       <div className='app-body'>
-          {gameId !== '' && <RotationChart rotations={rotationList} scores={scoreList}/>}
+          {selectedGame && Object.keys(selectedGame).length > 0 &&
+          <RotationChart 
+            final_scores={{home_score:selectedGame?.final_score?? 0, road_score:selectedGame?.opponent_score?? 0}}
+            matchup={matchupString}
+            rotations={rotationList}
+            scores={scoreList}/>}
       </div>
     </div>
   );

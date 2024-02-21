@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  background-color: #444b5a;
+  flex-direction: row;
 }
 
 .App-logo {
@@ -11,12 +14,13 @@
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   gap: 15px;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 0 15px 0 15px;
 }
 
 .App-link {
@@ -24,8 +28,7 @@
 }
 
 .app-body {
-  padding-left: 15px;
-  background-color: #444b5a;
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;

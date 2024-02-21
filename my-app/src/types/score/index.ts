@@ -1,4 +1,5 @@
 export type Score = {
+    [key: string]: PropertyKey,
     game_id: string,
     team_id: number,
     player_id: number,

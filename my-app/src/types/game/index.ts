@@ -5,4 +5,6 @@ export type Game = {
     seasonId: string,
     teamName: string,
     teamId: string,
+    final_score: number,
+    opponent_score: number,
 }
