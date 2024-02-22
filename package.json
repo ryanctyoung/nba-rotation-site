@@ -29,7 +29,7 @@
   "scripts": {
     "frontend": "react-scripts start",
     "backend": "ts-node-esm ./server/server.ts",
-    "start": "serve -s build && npm run backend",
+    "start": " npm run backend && serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
