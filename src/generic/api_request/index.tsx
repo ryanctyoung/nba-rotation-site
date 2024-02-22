@@ -1,10 +1,6 @@
-import {config} from 'dotenv';
-
-config();
-
 const PORT = process.env.PORT || 8081;
-
-const path = `${process.env.SERVER_PATH}:${PORT}/`
+const urlPrefix = process.env.NODE_ENV ==='development' ? 'http://localhost' : process.env.SERVER_PATH
+const urlPath = `${urlPrefix}:${PORT}/`
 
 export default function (subpath: string, params = {}, method = 'GET'): Promise<any> {
  
@@ -13,7 +9,7 @@ export default function (subpath: string, params = {}, method = 'GET'): Promise<
         headers: { 'Content-Type': 'application/json' },
         };
     
-        let url = path + subpath;
+        let url = urlPath + subpath;
         if (method === 'GET') {
             url += `?${new URLSearchParams(params)}`;
             console.log(`URL for GET request: ${url}`);
