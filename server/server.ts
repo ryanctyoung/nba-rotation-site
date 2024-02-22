@@ -5,6 +5,7 @@ import rotationRouter from './routing/rotations/index.js'
 import scoreRouter from './routing/scores/index.js'
 import "reflect-metadata";
 import {config} from 'dotenv';
+import path from "path"
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(cors());
 
+app.use(express.static("public"));
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -31,6 +33,8 @@ app.use('/rotations', rotationRouter);
 
 // Score route map
 app.use('/scores', scoreRouter);
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
