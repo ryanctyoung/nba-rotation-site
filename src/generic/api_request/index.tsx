@@ -1,5 +1,5 @@
-const PORT = process.env.PORT || 8081;
-const urlPrefix = process.env.NODE_ENV ==='development' ? 'http://localhost' : process.env.SERVER_PATH
+const PORT = 8081;
+const urlPrefix = process.env.NODE_ENV ==='development' ? 'http://localhost' : 'https://nba-rotation-tracker-716366dfba17.herokuapp.com/'
 const urlPath = `${urlPrefix}:${PORT}/`
 
 export default function (subpath: string, params = {}, method = 'GET'): Promise<any> {
