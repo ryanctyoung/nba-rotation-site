@@ -28,7 +28,7 @@
   },
   "scripts": {
     "frontend": "react-scripts start",
-    "backend": "node dist/server/server.js",
+    "backend": "node dist/server.js",
     "start": " npm run backend",
     "postinstall": "tsc",
     "build": "react-scripts build",
