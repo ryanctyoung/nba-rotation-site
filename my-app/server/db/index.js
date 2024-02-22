@@ -4,17 +4,18 @@ import settings from "./settings.json" assert { type: "json" };
 import Game from './schema/gameSchema.js';
 import Rotation from './schema/rotationSchema.js';
 import Score from "./schema/scoreSchema.js";
+import {config} from 'dotenv';
+
+config()
 
 const environment = "development"
-const settingsInfo = settings[environment]
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: settingsInfo.host,
-  port: settingsInfo.port,
-  username: settingsInfo.username,
-  password: settingsInfo.password,
-  database: settingsInfo.database,
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_USER,
   entities: [
     Game,
     Rotation,
