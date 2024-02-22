@@ -1,6 +1,10 @@
+import {config} from 'dotenv';
+
+config();
+
 const PORT = process.env.PORT || 8081;
 
-const path = `http://localhost:${PORT}/`
+const path = `${process.env.SERVER_PATH}:${PORT}/`
 
 export default function (subpath: string, params = {}, method = 'GET'): Promise<any> {
  
