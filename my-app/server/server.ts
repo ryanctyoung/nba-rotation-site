@@ -4,10 +4,13 @@ import gameRouter from './routing/games/index.js'
 import rotationRouter from './routing/rotations/index.js'
 import scoreRouter from './routing/scores/index.js'
 import "reflect-metadata";
+import {config} from 'dotenv';
 
 const corsOptions = {
   origin: 'http://localhost:3000',
 };
+
+config();
 
 const app = express();
 
