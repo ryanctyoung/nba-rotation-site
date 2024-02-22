@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.static("public"));
+app.use(express.static("/build/static"));
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -34,7 +34,6 @@ app.use('/rotations', rotationRouter);
 // Score route map
 app.use('/scores', scoreRouter);
 
-app.use(express.static(path.join(__dirname, "public")));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8081;
