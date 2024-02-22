@@ -399,13 +399,13 @@ export default function RotationChart(props: Readonly<{
                   ref={graphRef}
                   className='path-container'
                   >
+                    {icons?.road}
+                    {icons?.home}
                     <g>
-                      {icons?.home}
                       {score_path}
                       {home_player_paths}
                     </g>
                     <g>
-                      {icons?.road}
                       {road_player_paths}
                     </g>
                   </svg>
