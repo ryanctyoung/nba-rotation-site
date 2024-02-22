@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm"
-import settings from "./settings.json" assert { type: "json" };
 // import Score from './schema/scoreSchema.js';
 import Game from './schema/gameSchema.js';
 import Rotation from './schema/rotationSchema.js';
@@ -7,8 +6,6 @@ import Score from "./schema/scoreSchema.js";
 import {config} from 'dotenv';
 
 config()
-
-const environment = "development"
 
 export const AppDataSource = new DataSource({
   type: "postgres",
