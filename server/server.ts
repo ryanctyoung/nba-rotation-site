@@ -5,10 +5,9 @@ import rotationRouter from './routing/rotations/index.js'
 import scoreRouter from './routing/scores/index.js'
 import "reflect-metadata";
 import {config} from 'dotenv';
-import path from "path"
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:8081',
 };
 
 config();
@@ -36,7 +35,7 @@ app.use('/scores', scoreRouter);
 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT ?? 8081;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
