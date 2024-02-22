@@ -21,6 +21,7 @@
     "react-nba-logos": "^1.1.3",
     "react-scripts": "5.0.1",
     "reflect-metadata": "^0.2.1",
+    "serve": "^14.2.1",
     "typeorm": "^0.3.20",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -28,7 +29,7 @@
   "scripts": {
     "frontend": "react-scripts start",
     "backend": "ts-node-esm ./server/server.ts",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
