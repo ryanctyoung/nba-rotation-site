@@ -28,11 +28,12 @@
   },
   "scripts": {
     "frontend": "react-scripts start",
-    "backend": "node dist/server.js",
+    "backend": "ts-node-esm ./server/server.ts",
     "start": " npm run backend",
     "postinstall": "tsc",
     "build": "react-scripts build",
     "build-dev": "",
+    "server": "node dist/server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
