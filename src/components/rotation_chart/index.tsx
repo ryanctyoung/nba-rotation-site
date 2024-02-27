@@ -33,6 +33,7 @@ export default function RotationChart(props: Readonly<{
     const [values, setValues] = useState<{player:string, data:[[number, number]], team_id: number, id: number}[]>([]);
     const [homeTeam, setHomeTeam] = useState<number>(0)
     const [roadTeam, setRoadTeam] = useState<number>(0)
+    const [roadIconSpot, setRoadIconSpot] = useState<string>('')
     const [timeSpot, setTimeSpot] = useState<number>(0)
     const [icons, setIcons] = useState<{home:JSX.Element, road:JSX.Element}>()
     // const [player_names, setPlayerNames] = useState<string[]>([])
@@ -122,6 +123,9 @@ export default function RotationChart(props: Readonly<{
     const rotation_sort_func = useCallback((a: Rotation,b: Rotation) => {
       if (a.team_id === b.team_id) {
         if (activeTimeline[0].includes(a.player_id)) {
+          if (a.team_id === roadTeam) {
+            setRoadIconSpot(a.player_name)
+          }
           return -1
         }
         return 0
@@ -234,6 +238,7 @@ export default function RotationChart(props: Readonly<{
           const path = lineGenerator(player.data);
           return (
             <path
+              key={player.id}
               id={`line-${player.id}`}
               className={`player_line ${player.id}`}
               d={path ?? ''}
@@ -275,6 +280,7 @@ export default function RotationChart(props: Readonly<{
           const path = lineGenerator(player.data);
           return (
             <path
+              key={player.id}
               id={`line-${player.id}`}
               className={`player_line ${player.id}`}
               d={path ?? ''}
@@ -337,7 +343,7 @@ export default function RotationChart(props: Readonly<{
               "translate(0," + 0 + ")"
             }
             // fill="white"
-            // fillOpacity={0}
+            fillOpacity={0}
             opacity={0.8}
             onPointerEnter={mouseMove}
             onPointerMove={mouseMove}
@@ -350,6 +356,10 @@ export default function RotationChart(props: Readonly<{
         );
         
       }, [scoreLine])
+
+      useEffect(()=> {
+        select('.score_line')  
+      }, [score_path])
 
     // Animation useEffect
     useEffect(() => {
@@ -367,8 +377,10 @@ export default function RotationChart(props: Readonly<{
 
     // produce player labels for groups
     const labels = useMemo(() => {
+      let firstRoadFound = false
       return values.map((group:{player:string, data:[[number, number]], team_id: number, id: number }, i:any) => {
         const color = activeTimeline[timeSpot].find(id => group.id === id) ? 'yellow': 'white'
+
         return (
           <text
             key={group.id}
@@ -399,8 +411,12 @@ export default function RotationChart(props: Readonly<{
                   ref={graphRef}
                   className='path-container'
                   >
-                    {icons?.road}
-                    {icons?.home}
+                    <g>
+                      {icons?.home}
+                    </g>
+                    <g transform={`translate(0,${((yGroup(roadIconSpot)?? 0))})`}>
+                      {icons?.road}
+                    </g>
                     <g>
                       {score_path}
                       {home_player_paths}
