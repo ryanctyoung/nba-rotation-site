@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# NBA Rotation Patterns Visual 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[URL](https://nba-rotation-tracker-716366dfba17.herokuapp.com/)
 
-## Available Scripts
+### Description
+A web application pertaining to NBA players, specifically detailing the time each player spent on the court for each game in the current season.
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Tech Stack
+The frontend was generated using React.js, with API logic handled using Node.js.
 
-### `npm test`
+Data is pulled and organized from the official NBA stats API using a separate Python script/project. The data is stored on a PostgreSQL instance hosted on ElephantSQL.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The website itself is hosted on as Heroku instance.
 
-### `npm run build`
+/
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Usage
+The application takes two parameters in the sidebar: first is the NBA team of choice, and the second is the specific game to be examined. Once selected, the app fetches the relevant data and renders it into the timeline visual.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The timeline consists of two graphs: the players' rotation graph, and the score margin line in the background
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+/
 
-### `npm run eject`
+#### Players' Rotations
+Each player that entered the game at any point is rendered on the main graph as their own timeline. The filled sections of the line represent the sections of time they were present in-game.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The players are grouped by team, with the home team stacked on top of the road/away team.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The user can select a specific point of the game to evaluate by hovering the cursor over any of the timelines. The selected time of the game will be present to the right of the graph, and the players on the court at the time will be highlighted yellow.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+/
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Scoring Margin
 
-## Learn More
+The line in the background represents the score margin for the game at the related point in time. The higher the y-value of the line, the bigger a lead the home team had at the relevant point of the game. Conversely, the lower the line, the more the score favored the away team.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*Overtime periods are not included or rendered in these graphs.*
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+/
+
+### Future Improvements
+Being a small personal project, there are many features that could be added more in the future, on top of improvements for the existing functionality:
+
+- Score margin line can change color to better indicate concrete lead changes (green for home team, red for away team)
+- The specific margin, or how many points exactly the leading team is ahead by, could also be provided, though that would substantially increase the volume of the data to be both pulled from the stats API and added to the client.
+- A different selection of the timeline other than simply hovering the cursor, which can be finicky and demands too much of the cursor.
