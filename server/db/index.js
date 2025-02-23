@@ -19,6 +19,9 @@ export const AppDataSource = new DataSource({
     Rotation,
     Score
   ],
+  extra: {
+    ssl: true,
+  }
 })
 
 AppDataSource.initialize()
