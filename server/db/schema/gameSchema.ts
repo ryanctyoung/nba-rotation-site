@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn } from "typeorm"
 
-@Entity('games')
+@Entity('game')
 export default class Game {
     @PrimaryColumn("text")
     GAME_ID: string
