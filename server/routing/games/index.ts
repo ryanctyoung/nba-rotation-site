@@ -7,8 +7,8 @@ const db = AppDataSource;
 
 // List Games - parameters: teamId
 MainGameRouter.get('/', async (req, res) => {
-  console.log(`GET Games by Team_Id Query`);
   const { teamId, seasonId } = req.query;
+  console.log(`GET Games for team ${teamId} for the ${seasonId} season`);
 
   await db
     .createQueryBuilder()
@@ -18,7 +18,7 @@ MainGameRouter.get('/', async (req, res) => {
     .getMany()
     .then((data) => {
       const objs = data.sort(function(a,b) {
-        return b.GAME_DATE.getTime() - a.GAME_DATE.getTime()
+        return new Date(b.GAME_DATE).getTime() - new Date(a.GAME_DATE).getTime()
       }).map(game => ({
         id: game.GAME_ID,
         date: game.GAME_DATE,

@@ -3,26 +3,26 @@ import { Entity, Column, PrimaryColumn } from "typeorm"
 @Entity('score_histories')
 export default class Score {
     @PrimaryColumn("text")
-    GAME_ID: string
+    gameId: string
 
-    @Column()
-    TEAM_ID: number
+    @Column({type: 'int4'})
+    teamId: number
 
-    @PrimaryColumn()
-    PERSON_ID: number
-
-    @Column("text")
-    PLAYER_NAME: string
-
-    @Column()
-    SCORE_HOME: number
-
-    @Column()
-    SCORE_AWAY: number
+    @PrimaryColumn({type: 'int4'})
+    personId: number
 
     @Column("text")
-    LOCATION: string
+    playerName: string
 
-    @PrimaryColumn()
-    GAME_TIME: number
+    @Column({type: 'int2'})
+    scoreHome: number
+
+    @Column({type: 'int2'})
+    scoreAway: number
+
+    @Column("text")
+    location: string
+
+    @PrimaryColumn({type: 'int2'})
+    gameTime: number
 }

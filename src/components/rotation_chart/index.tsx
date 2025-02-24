@@ -28,6 +28,7 @@ export default function RotationChart(props: Readonly<{
     matchup: string,
 }>) {
     const {rotations, scores, matchup, final_scores } = props
+    
     const [activeTimeline, setTimeline] = useState<number[][]>([[]])
     const [scoreLine, setScoreLine] = useState<number[][]>([])
     const [values, setValues] = useState<{player:string, data:[[number, number]], team_id: number, id: number}[]>([]);
@@ -96,7 +97,7 @@ export default function RotationChart(props: Readonly<{
             rotation_history[seconds_per_game - 1] = 0
             let data = rotation_history.map((d:number, i:number )=> [i, d]) as [[number, number]]
             // console.log(`Data for ${p.player_name}: ${data}`)
-            return {player: p.player_name, team_id: p.team_id, data, id: p.player_id}
+            return {player: p.player_name, team_id: Number(p.team_id), data, id: p.player_id}
         })
       setTimeline(newActiveTimeline)
       setValues([...result])
@@ -105,14 +106,13 @@ export default function RotationChart(props: Readonly<{
 
     useEffect(()=> {
       const seen = Object.create(null)
-      const key_dict:string[] = ['home_score', 'away_score', 'game_time']
       const temp = scores.filter(o => {
-        const key = key_dict.map(k => o[k.toString()]).join('|');
-        if (!seen[key]) {
-          seen[key] = true
+        const game_time = o['gameTime']
+        if (!seen[game_time]) {
+          seen[game_time] = true
           return true
         }
-      }).map(o => ([o.game_time, o.home_score - o.away_score]))
+      }).map(o => ([o.gameTime, o.scoreHome - o.scoreAway]))
 
       temp.unshift([0, 0])
       temp.push([seconds_per_game-1, final_scores.home_score - final_scores.road_score])
@@ -120,17 +120,17 @@ export default function RotationChart(props: Readonly<{
     },
     [scores])
 
-    const rotation_sort_func = useCallback((a: Rotation,b: Rotation) => {
-      if (a.team_id === b.team_id) {
+    const rotation_sort_func = useCallback((a: Rotation,b: Rotation) => { // sort players by home / away team and by starting lineup
+      if (a.team_id == b.team_id) {
         if (activeTimeline[0].includes(a.player_id)) {
-          if (a.team_id === roadTeam) {
+          if (a.team_id == roadTeam) {
             setRoadIconSpot(a.player_name)
           }
           return -1
         }
         return 0
       }
-      else if(a.team_id === homeTeam){
+      else if(a.team_id == homeTeam){
         return -1
       }
 
@@ -219,21 +219,17 @@ export default function RotationChart(props: Readonly<{
     // Draw player paths
     const home_player_paths = useMemo(() => {
         const lineGenerator = line()
-          .x((d) => {
-            
-            return xScale(d[0])
-          })
-          .y((d) => {
-            return yScale(d[1])
-          })
+          .x((d) => xScale(d[0])) 
+          .y((d) => yScale(d[1])) // 
         
         if (values.length === 0) {
             return <></>
         }
         
-
+        console.log(`Drawing the line with:`)
+        console.log(values)
         return values.filter((player => player.team_id === homeTeam)).map((player:any, i:any) => {
-          // console.log(`Drawing the line for ${group.player}:`)
+          
 
           const path = lineGenerator(player.data);
           return (
@@ -379,7 +375,7 @@ export default function RotationChart(props: Readonly<{
     const labels = useMemo(() => {
       let firstRoadFound = false
       return values.map((group:{player:string, data:[[number, number]], team_id: number, id: number }, i:any) => {
-        const color = activeTimeline[timeSpot].find(id => group.id === id) ? 'yellow': 'white'
+        const color = activeTimeline[timeSpot].find(id => group.id === id) ? 'yellow': 'white' //  set color player name based on home / away
 
         return (
           <text
@@ -419,14 +415,13 @@ export default function RotationChart(props: Readonly<{
                     </g>
                     <g>
                       {score_path}
-                      {home_player_paths}
-                    </g>
-                    <g>
                       {road_player_paths}
                     </g>
+                    <g>
+                      {home_player_paths}
+                    </g>
+                    {labels}
                   </svg>
-                  {labels}
-                
                 </g>
                 {/* <g></g> */}
               <g

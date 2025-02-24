@@ -5,7 +5,7 @@ export default class Rotation {
     @PrimaryColumn("text")
     GAME_ID: string
 
-    @PrimaryColumn()
+    @PrimaryColumn({type: 'int4'})
     PLAYER_ID: number
 
     @Column("text")
@@ -14,6 +14,6 @@ export default class Rotation {
     @Column("text")
     SUBS: string
 
-    @Column()
+    @Column({type: 'int4'})
     TEAM_ID: number
 }

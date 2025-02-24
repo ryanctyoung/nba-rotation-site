@@ -16,18 +16,18 @@ MainScoreRouter.get('/', async (req, res) => {
     .createQueryBuilder()
     .select("score")
     .from(Score, "score")
-    .where(":gameId = score.GAME_ID", { gameId })
+    .where(":gameId = score.gameId", { gameId })
     .getMany()
     .then((data) => {
       const objs = data.map(score => ({
-        game_id: score.GAME_ID,
-        team_id: score.TEAM_ID,
-        player_id: score.PERSON_ID,
-        player_name: score.PLAYER_NAME,
-        home_score: score.SCORE_HOME,
-        away_score: score.SCORE_AWAY,
-        location: score.LOCATION,
-        game_time: score.GAME_TIME,
+        gameId: score.gameId,
+        teamId: score.teamId,
+        personId: score.personId,
+        playerName: score.playerName,
+        scoreHome: score.scoreHome,
+        scoreAway: score.scoreAway,
+        location: score.location,
+        gameTime: score.gameTime,
       }))
       res.json(objs)
     });

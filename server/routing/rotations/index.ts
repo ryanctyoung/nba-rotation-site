@@ -7,8 +7,8 @@ const db = AppDataSource;
 
 // List Rotations - parameters: gameId
 MainRotationRouter.get('/', async (req, res) => {
-  console.log(`GET Rotations by Game_Id Query`);
   const { gameId } = req.query;
+  console.log(`GET Rotations for game ${gameId}`);
 
   await db
     .createQueryBuilder()

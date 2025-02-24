@@ -22,7 +22,7 @@
     "jsx": "react-jsx",
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "server"

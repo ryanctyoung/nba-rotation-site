@@ -29,7 +29,7 @@ function App() {
     request(gameUrl, {teamId: team, seasonId: seasonInfo.season_id}, 'GET')
       .then((data: []) => {
         console.log(data)
-        setGameList(data)
+        setGameList(data as Game[])
       })
   }
   
@@ -42,8 +42,8 @@ function App() {
     const rotationUrl = 'rotations'
     request(rotationUrl, {gameId: game}, 'GET')
       .then((data: []) => {
-        // console.log(data)
-        setRotationList(data)
+        console.log(data as Rotation[])
+        setRotationList(data as Rotation[])
       })
   }
 
@@ -56,8 +56,8 @@ function App() {
     const scoreUrl = 'scores'
     request(scoreUrl, {gameId: game}, 'GET')
       .then((data: []) => {
-        // console.log(data)
-        setScoreList(data)
+        console.log(data)
+        setScoreList(data as Score[])
       })
   }
 
