@@ -8,12 +8,6 @@ export default class Score {
     @Column({type: 'int4'})
     teamId: number
 
-    @PrimaryColumn({type: 'int4'})
-    personId: number
-
-    @Column("text")
-    playerName: string
-
     @Column({type: 'int2'})
     scoreHome: number
 

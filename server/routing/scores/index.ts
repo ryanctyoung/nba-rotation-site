@@ -11,26 +11,44 @@ MainScoreRouter.get('/', async (req, res) => {
 
   console.log(`GET Score for game ${gameId}`);
 
+  await db.query(`SELECT "gameId", "scoreHome", "scoreAway", "gameTime"
+    FROM
+        (SELECT "gameId", "scoreHome", "scoreAway", "gameTime",
+         ROW_NUMBER() OVER( PARTITION BY g."gameId",
+         g."gameTime"
+         ) AS row_num
+        FROM public.score_histories as g 
+        WHERE g."gameId"='${gameId}') t
+        WHERE t.row_num = 1`)
+        .then((data) => {
+          const objs = data.map((score: Score) => ({
+            gameId: score.gameId,
+            teamId: score.teamId,
+            scoreHome: score.scoreHome,
+            scoreAway: score.scoreAway,
+            location: score.location,
+            gameTime: score.gameTime,
+          }))
+          res.json(objs)
+        })
 
-  await db
-    .createQueryBuilder()
-    .select("score")
-    .from(Score, "score")
-    .where(":gameId = score.gameId", { gameId })
-    .getMany()
-    .then((data) => {
-      const objs = data.map(score => ({
-        gameId: score.gameId,
-        teamId: score.teamId,
-        personId: score.personId,
-        playerName: score.playerName,
-        scoreHome: score.scoreHome,
-        scoreAway: score.scoreAway,
-        location: score.location,
-        gameTime: score.gameTime,
-      }))
-      res.json(objs)
-    });
+  // await db
+  //   .createQueryBuilder()
+  //   .select("score")
+  //   .from(Score, "score")
+  //   .where(":gameId = score.gameId", { gameId })
+  //   .getMany()
+  //   .then((data) => {
+  //     const objs = data.map(score => ({
+  //       gameId: score.gameId,
+  //       teamId: score.teamId,
+  //       scoreHome: score.scoreHome,
+  //       scoreAway: score.scoreAway,
+  //       location: score.location,
+  //       gameTime: score.gameTime,
+  //     }))
+  //     res.json(objs)
+  //   });
 });
 
 export default MainScoreRouter;
